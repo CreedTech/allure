@@ -1,17 +1,17 @@
-import 'package:allure/domain/entities/article_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../domain/domain.dart';
 import '../../injector.dart';
 import '../../presentation/bookmark/bloc/bookmark/bookmark_news_bloc.dart';
 import '../../presentation/explore/bloc/explore/explore_news_bloc.dart';
 import '../../presentation/explore/view/search_news_view.dart';
+import '../../presentation/home/bloc/category_news/category_news_bloc.dart';
 import '../../presentation/home/view/category_news_view.dart';
 import '../../presentation/home/view/detail_news_view.dart';
 import '../../presentation/home/view/splash_view.dart';
 import '../../presentation/navigation/view/navigation_view.dart';
 import '../components/component_route_animtaion.dart';
-import '../presentation/home/bloc/category_news/category_news_bloc.dart';
 import 'helper_routes_argument.dart';
 import 'helper_routes_path.dart';
 
@@ -43,7 +43,7 @@ class RouterGenerator {
         );
 
       case detail:
-        if (arguments is ArticleEntity) {
+        if (arguments is NewsArticleEntities) {
           return CustomPageRouteBuilder(
             BlocProvider(
               create: (_) => sl<BookmarkNewsBloc>(),

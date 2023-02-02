@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/core.dart';
 import '../../../../domain/domain.dart';
-import '../../../../domain/entities/article_entity.dart';
 import '../../../../domain/usecases/bookmarks/remove_bookmark_case.dart';
-import '../../../../helpers/helper_utils.dart';
-import '../../../../usecases/case.dart';
 import '../enum_explore_bloc.dart';
 
 part 'bookmark_news_event.dart';
@@ -30,14 +28,14 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
       BookmarkNewsGetEvent event, Emitter<BookmarkNewsState> emit) async {
     emit(state.copyWith(status: BookmarkBlocStatus.loading));
     await getBookmarkCase(NoParams()).then(
-      (value) => value.fold(
-        (l) => emit(
+          (value) => value.fold(
+            (l) => emit(
           state.copyWith(
             status: BookmarkBlocStatus.failure,
             message: Guide.failureToMessage(l),
           ),
         ),
-        (r) => emit(
+            (r) => emit(
           state.copyWith(
             status: BookmarkBlocStatus.loaded,
             response: r,
@@ -53,14 +51,14 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
     emit(state.copyWith(status: BookmarkBlocStatus.loading));
     final data = NewsEntities(status: "ok", total: 1, articles: event.add);
     await addBookmarkCase(AddBookmarkParams(data)).then(
-      (value) => value.fold(
-        (l) => emit(
+          (value) => value.fold(
+            (l) => emit(
           state.copyWith(
             status: BookmarkBlocStatus.failure,
             message: Guide.failureToMessage(l),
           ),
         ),
-        (r) => emit(
+            (r) => emit(
           state.copyWith(
             status: BookmarkBlocStatus.loaded,
           ),
@@ -73,15 +71,15 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
   void _onBookmarkNewsRemoveEvent(
       BookmarkNewsRemoveEvent event, Emitter<BookmarkNewsState> emit) async {
     final data = NewsEntities(status: "ok", total: 1, articles: event.remove);
-    await removeBookmarkCase(RemoveBookmarkParams(data as List<ArticleEntity>)).then(
-      (value) => value.fold(
-        (l) => emit(
+    await removeBookmarkCase(RemoveBookmarkParams(data)).then(
+          (value) => value.fold(
+            (l) => emit(
           state.copyWith(
             status: BookmarkBlocStatus.failure,
             message: Guide.failureToMessage(l),
           ),
         ),
-        (r) => emit(
+            (r) => emit(
           state.copyWith(
             status: BookmarkBlocStatus.loaded,
           ),

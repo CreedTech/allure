@@ -1,10 +1,8 @@
-import 'package:allure/components/component_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_routes_path.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
+
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});

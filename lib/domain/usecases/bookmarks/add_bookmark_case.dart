@@ -1,10 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../errors/error.dart';
-import '../../../usecases/case.dart';
+import '../../../core/core.dart';
 import '../../abstraction/bookmark_repository.dart';
-import '../../entities/article_entity.dart';
+import '../../../../domain/domain.dart';
 
 class AddBookmarkCase implements UseCase<bool, AddBookmarkParams> {
   final BookmarkRepository repository;
@@ -17,7 +16,7 @@ class AddBookmarkCase implements UseCase<bool, AddBookmarkParams> {
 }
 
 class AddBookmarkParams extends Equatable {
-  final List<ArticleEntity> news;
+  final NewsEntities news;
 
   const AddBookmarkParams(this.news);
 

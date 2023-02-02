@@ -4,10 +4,10 @@ class HomeNewsState extends Equatable {
   final HomeBlocStatus statusTrending;
   final HomeBlocStatus statusHot;
   final HomeBlocStatus statusRecommendation;
-  final List<ArticleEntity>? trending;
-  final List<ArticleEntity>? recommendation;
-  final List<ArticleEntity>? hot;
-  final List<CategoryEntity>? category;
+  final NewsEntities? trending;
+  final NewsEntities? recommendation;
+  final NewsEntities? hot;
+  final NewsEntities? category;
 
   final String message;
   const HomeNewsState({
@@ -25,10 +25,10 @@ class HomeNewsState extends Equatable {
     HomeBlocStatus? statusTrending,
     HomeBlocStatus? statusHot,
     HomeBlocStatus? statusRecommendation,
-    List<ArticleEntity>? trending,
-    List<ArticleEntity>? recommendation,
-    List<ArticleEntity>? hot,
-    List<CategoryEntity>? category,
+    NewsEntities? trending,
+    NewsEntities? recommendation,
+    NewsEntities? hot,
+    NewsEntities? category,
     String? message,
   }) {
     return HomeNewsState(

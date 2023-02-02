@@ -1,7 +1,7 @@
 part of 'bookmark_news_bloc.dart';
 
 class BookmarkNewsState extends Equatable {
-  final List<ArticleEntity>? response;
+  final NewsEntities? response;
   final BookmarkBlocStatus status;
   final String message;
   const BookmarkNewsState({
@@ -11,7 +11,7 @@ class BookmarkNewsState extends Equatable {
   });
 
   BookmarkNewsState copyWith({
-    List<ArticleEntity>? response,
+    NewsEntities? response,
     BookmarkBlocStatus? status,
     String? message,
   }) {

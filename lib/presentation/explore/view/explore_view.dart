@@ -1,6 +1,4 @@
 
-import 'package:allure/components/component_style.dart';
-import 'package:allure/domain/entities/article_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,9 +8,8 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_routes_path.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
+import '../../../domain/entitites/news_entities.dart';
 import '../../home/bloc/enum_home_bloc.dart';
 import '../../home/bloc/home_news/home_news_bloc.dart';
 import '../../home/widget/trending_skeleton_widget.dart';
@@ -134,12 +131,12 @@ class _ExploreViewsState extends State<ExploreViews> {
                       }
 
                       if (state.statusRecommendation == HomeBlocStatus.loaded) {
-                        List<ArticleEntity>? recommendation =
-                            state.recommendation?.map((e) => e).toList();
+                        List<NewsArticleEntities> recommendation =
+                            state.recommendation?.articles ?? [];
                         return SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: Column(
-                            children: recommendation!
+                            children: recommendation
                                 .asMap()
                                 .map(
                                   (index, value) => MapEntry(
@@ -183,7 +180,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                 height: 110.h,
                                                 child: CachedNetworkImage(
                                                   // imageUrl: recommendation[index].source.ogImage[0].url,
-                                                  imageUrl: recommendation[index].yoastHeadJson!.ogImage![0].url!,
+                                                  imageUrl: recommendation[index].link,
                                                   imageBuilder: (c, image) =>
                                                       Container(
                                                     decoration: BoxDecoration(
@@ -213,8 +210,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                     SizedBox(
                                                       width: 180.w,
                                                       child: Text(
-                                                        recommendation[index]
-                                                            .yoastHeadJson!.title!,
+                                                        recommendation[index].title.rendered,
                                                         maxLines: 2,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -231,8 +227,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                     SizedBox(
                                                       width: 175.w,
                                                       child: Text(
-                                                        recommendation[index]
-                                                            .yoastHeadJson!.ogDescription,
+                                                        recommendation[index].content.rendered,
                                                         maxLines: 2,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -255,7 +250,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                         color: colorPrimary,
                                                         borderRadius: BorderRadius.circular(5.r),
                                                       ),
-                                                      child: Text(recommendation[index].yoastHeadJson!.schema!.graph![0].articleSection!.join(' | ')).boldSized(8).colors(
+                                                      child: Text(recommendation[index].yoastHeadJson.schema.graph[0].articleSection.join(" | ")).boldSized(8).colors(
                                                         Guide.isDark(context)
                                                             ? colorsBlack
                                                             : colorWhite,
@@ -288,7 +283,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                               Text(
                                                                 recommendation[
                                                                         index]
-                                                                    .yoastHeadJson!
+                                                                    .yoastHeadJson
                                                                     .author,
                                                               )
                                                                   .boldSized(10)

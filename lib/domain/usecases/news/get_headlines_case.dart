@@ -1,17 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import '../../../errors/error.dart';
-import '../../../usecases/case.dart';
+import '../../../core/core.dart';
 import '../../domain.dart';
-import '../../entities/article_entity.dart';
 
-class GetHeadlinesCase implements UseCase<List<ArticleEntity>, GetHeadlinesParams> {
+class GetHeadlinesCase implements UseCase<NewsEntities, GetHeadlinesParams> {
   final NewsRepository repository;
 
   GetHeadlinesCase(this.repository);
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> call(GetHeadlinesParams params) async {
+  Future<Either<Failure, NewsEntities>> call(GetHeadlinesParams params) async {
     return await repository.getNewsByHeadlines(
       limit: params.limit,
       page: params.page,

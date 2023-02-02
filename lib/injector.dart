@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import 'core/core.dart';
 import 'data/datasources/bookmarks/bookmarks_local_data_source.dart';
 import 'data/datasources/news/news_local_data_source.dart';
 import 'data/datasources/news/news_remote_data_source.dart';
@@ -9,12 +10,6 @@ import 'data/repositories/news_repository_impl.dart';
 import 'domain/abstraction/bookmark_repository.dart';
 import 'domain/domain.dart';
 import 'domain/usecases/bookmarks/remove_bookmark_case.dart';
-import 'helpers/helper_routes.dart';
-import 'helpers/helper_storage.dart';
-import 'helpers/helper_utils.dart';
-import 'networks/network_checker.dart';
-import 'networks/network_constant.dart';
-import 'networks/network_dio.dart';
 import 'presentation/bookmark/bloc/injection_explore_bloc.dart';
 import 'presentation/explore/bloc/injection_explore_bloc.dart';
 import 'presentation/home/bloc/injection_home_bloc.dart';

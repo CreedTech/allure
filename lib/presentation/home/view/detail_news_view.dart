@@ -1,17 +1,15 @@
-import 'package:allure/components/component_style.dart';
-import 'package:allure/domain/entities/article_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
+import '../../../domain/domain.dart';
 import '../../bookmark/bloc/bookmark/bookmark_news_bloc.dart';
 
 class DetailNewsView extends StatelessWidget {
-  final List<ArticleEntity> response;
+  final List<NewsArticleEntities> response;
   const DetailNewsView({
     super.key,
     required this.response,
@@ -37,7 +35,7 @@ class DetailNewsView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Text(
-                  Uri.parse(response[0].yoastHeadJson!.ogUrl!).host,
+                  Uri.parse(response[0].yoastHeadJson.ogUrl).host,
                 ).normalSized(15).colors(Guide.isDark(context) ? colorWhite : colorPrimary),
               ),
               centerTitle: true,
@@ -72,7 +70,7 @@ class DetailNewsView extends StatelessWidget {
                     children: [
                       CachedNetworkImage(
                         // imageUrl: response[0].source.ogImage[0].url,
-                        imageUrl: response[0].yoastHeadJson!.ogImage![0].url!,
+                        imageUrl: response[0].yoastHeadJson.ogImage[0].url,
                         imageBuilder: (c, image) => Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -190,7 +188,7 @@ class DetailNewsView extends StatelessWidget {
                                    MainAxisAlignment.spaceBetween,
                                    children: [
                                      Text(
-                                       response[0].yoastHeadJson!.author.toUpperCase(),
+                                       response[0].yoastHeadJson.author.toUpperCase(),
                                        maxLines: 1,
                                        overflow: TextOverflow.ellipsis,
                                      ).boldSized(17).colors(
@@ -207,7 +205,7 @@ class DetailNewsView extends StatelessWidget {
                                          color: colorPrimary,
                                          borderRadius: BorderRadius.circular(5.r),
                                        ),
-                                       child: Text(response[0].yoastHeadJson!.schema!.graph![0].articleSection!.join(' | ')).boldSized(8).colors(
+                                       child: Text(response[0].yoastHeadJson.schema.graph[0].articleSection.join(' | ')).boldSized(8).colors(
                                          Guide.isDark(context)
                                              ? colorWhite
                                              : colorWhite,
@@ -225,7 +223,7 @@ class DetailNewsView extends StatelessWidget {
                         height: 10.h,
                       ),
                       Text(
-                        response[0].yoastHeadJson!.title!,
+                        response[0].title.rendered,
                       ).blackSized(20).colors(
                             Guide.isDark(context)
                                 ? darkThemeText
@@ -236,7 +234,7 @@ class DetailNewsView extends StatelessWidget {
                       ),
                       Container(
                         child: Text(
-                          response[0].yoastHeadJson!.ogDescription,
+                          response[0].content.rendered,
                         ).normalSized(13).colors(
                               Guide.isDark(context)
                                   ? darkThemeText
@@ -248,7 +246,7 @@ class DetailNewsView extends StatelessWidget {
                       ),
                       Container(
                         child: Text(
-                          response[0].yoastHeadJson!.ogUrl!,
+                          response[0].link,
                         ).normalSized(10).colors(Guide.isDark(context) ? colorWhite : colorPrimary),
                       ),
                     ],

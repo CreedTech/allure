@@ -1,5 +1,4 @@
 
-import 'package:allure/components/component_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,9 +8,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_routes_path.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
 import '../../home/widget/trending_skeleton_widget.dart';
 import '../bloc/enum_explore_bloc.dart';
 import '../bloc/explore/explore_news_bloc.dart';
@@ -231,7 +228,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                         width: 115.w,
                                         height: 100.h,
                                         child: CachedNetworkImage(
-                                          imageUrl: data[index].yoastHeadJson!.ogImage![0].url!,
+                                          imageUrl: data[index].yoastHeadJson.ogImage[0].url,
                                           // imageUrl: data[index].source.ogImage[0].url,
                                           imageBuilder: (c, image) => Container(
                                             decoration: BoxDecoration(
@@ -258,7 +255,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
-                                              data[index].yoastHeadJson!.title!,
+                                              data[index].title.rendered,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ).boldSized(14).colors(
@@ -269,7 +266,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
-                                              data[index].yoastHeadJson!.ogDescription,
+                                              data[index].content.rendered,
                                               maxLines: 2,
                                               textAlign: TextAlign.justify,
                                               overflow: TextOverflow.ellipsis,
@@ -288,7 +285,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                               color: colorPrimary,
                                               borderRadius: BorderRadius.circular(5.r),
                                             ),
-                                            child: Text(data[index].yoastHeadJson!.schema!.graph![0].articleSection!.join(' | ')).boldSized(8).colors(
+                                            child: Text(data[index].yoastHeadJson.schema.graph[0].articleSection.join(' | ')).boldSized(8).colors(
                                               Guide.isDark(context)
                                                   ? colorWhite
                                                   : colorWhite,
@@ -313,7 +310,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                                       width: 7.w,
                                                     ),
                                                     Text(
-                                                      data[index].yoastHeadJson!.author.toUpperCase(),
+                                                      data[index].yoastHeadJson.author.toUpperCase(),
                                                     )
                                                         .boldSized(10)
                                                         .colors(colorTextGray)

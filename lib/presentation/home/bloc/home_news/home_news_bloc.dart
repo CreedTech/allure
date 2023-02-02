@@ -1,11 +1,8 @@
-import 'package:allure/domain/entities/article_entity.dart';
-import 'package:allure/domain/entities/category_entity.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/core.dart';
 import '../../../../domain/domain.dart';
-import '../../../../helpers/helper_utils.dart';
-import '../../../../usecases/case.dart';
 import '../enum_home_bloc.dart';
 
 part 'home_news_event.dart';

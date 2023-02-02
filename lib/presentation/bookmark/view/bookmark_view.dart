@@ -1,5 +1,4 @@
 
-import 'package:allure/components/component_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,10 +7,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../components/component_theme.dart';
+import '../../../core/core.dart';
 import '../../../domain/entitites/news_entities.dart';
-import '../../../helpers/helper_routes_path.dart';
-import '../../../helpers/helper_utils.dart';
 import '../../home/widget/trending_skeleton_widget.dart';
 import '../bloc/bookmark/bookmark_news_bloc.dart';
 import '../bloc/enum_explore_bloc.dart';
@@ -103,7 +100,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                   );
                 }
                 if (state.status == BookmarkBlocStatus.loaded) {
-                  final data = state.response?.map((e) => e).toList() ?? [];
+                  final data = state.response?.articles ?? [];
 
                   return data.isNotEmpty
                       ? ListView.builder(
@@ -174,7 +171,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                                             height: 120.h,
                                             child: CachedNetworkImage(
                                               // imageUrl: data[index].source.ogImage[0].url,
-                                              imageUrl: data[index].yoastHeadJson!.ogImage![0].url!,
+                                              imageUrl: data[index].yoastHeadJson.ogImage[0].url,
                                               imageBuilder: (c, image) =>
                                                   Container(
                                                 decoration: BoxDecoration(
@@ -201,7 +198,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                                               SizedBox(
                                                 width: 220.w,
                                                 child: Text(
-                                                  data[index].yoastHeadJson!.title!,
+                                                  data[index].title.rendered,
                                                   maxLines: 2,
                                                   overflow:
                                                       TextOverflow.ellipsis,
@@ -214,7 +211,7 @@ class _BookmarkViewState extends State<BookmarkView> {
                                               SizedBox(
                                                 width: 220.w,
                                                 child: Text(
-                                                  data[index].yoastHeadJson!.ogDescription,
+                                                  data[index].content.rendered,
                                                   maxLines: 3,
                                                   overflow:
                                                       TextOverflow.ellipsis,

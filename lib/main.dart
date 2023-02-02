@@ -2,11 +2,7 @@ import 'package:allure/presentation/home/bloc/theme/theme_mode_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'components/component_constant.dart';
-import 'components/component_theme.dart';
-import 'helpers/helper_routes.dart';
-import 'helpers/helper_routes_path.dart';
-import 'helpers/helper_utils.dart';
+import 'core/core.dart';
 import 'injector.dart';
 
 void main() async {

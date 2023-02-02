@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import '../../../errors/error_handler.dart';
-import '../../../helpers/helper_storage.dart';
+import '../../../core/core.dart';
 import '../../models/article_model.dart';
 
 abstract class BookmarkLocalDataSource {
-  Future<bool> addBookmark(List<ArticleModel> news);
-  Future<bool> removeBookmark(List<ArticleModel> news);
-  Future<List<ArticleModel>> readBookmark();
+  Future<bool> addBookmark(NewsModel news);
+  Future<bool> removeBookmark(NewsModel news);
+  Future<NewsModel> readBookmark();
 }
 
 const CACHED_BOOKMARK = "CACHED_BOOKMARK";
@@ -18,24 +17,26 @@ class BookmarkLocalDataSourceImpl implements BookmarkLocalDataSource {
   BookmarkLocalDataSourceImpl(this.storage);
 
   @override
-  Future<bool> addBookmark(List<ArticleModel> news) async {
+  Future<bool> addBookmark(NewsModel news) async {
     final jsonString = await storage.read(CACHED_BOOKMARK);
     if (jsonString != null) {
-      List<ArticleModel> cache = List<ArticleModel>.from(json.decode(jsonString).map((x) => ArticleModel.fromJson(x)));
-      final List<ArticleModel> data = news;
+      NewsModel cache = NewsModel.fromJson(json.decode(jsonString));
+      final List<NewsArticleModel> data = news.articles;
 
-      for (var element in cache) {
-        if (data[0].yoastHeadJson.title!.contains(element.yoastHeadJson.title!)) {
+      for (var element in cache.articles) {
+        if (data[0].title.rendered.contains(element.title.rendered)) {
           return false;
         }
       }
 
-      cache = news + cache;
+      cache.articles = news.articles + cache.articles;
 
       await storage.write(
         StorageItems(
           key: CACHED_BOOKMARK,
-          value: json.encode(List<dynamic>.from(cache.map((x) => x.toJson())))
+          value: json.encode(
+            cache.toJson(),
+          ),
         ),
       );
       return true;
@@ -43,7 +44,9 @@ class BookmarkLocalDataSourceImpl implements BookmarkLocalDataSource {
       await storage.write(
         StorageItems(
           key: CACHED_BOOKMARK,
-          value: json.encode(List<dynamic>.from(news.map((x) => x.toJson())))
+          value: json.encode(
+            news.toJson(),
+          ),
         ),
       );
       return true;
@@ -51,19 +54,21 @@ class BookmarkLocalDataSourceImpl implements BookmarkLocalDataSource {
   }
 
   @override
-  Future<bool> removeBookmark(List<ArticleModel> news) async {
+  Future<bool> removeBookmark(NewsModel news) async {
     final jsonString = await storage.read(CACHED_BOOKMARK);
 
     if (jsonString != null) {
-      List<ArticleModel> cache = List<ArticleModel>.from(json.decode(jsonString).map((x) => ArticleModel.fromJson(x)));
-      final List<ArticleModel> data = news;
+      NewsModel cache = NewsModel.fromJson(json.decode(jsonString));
+      final List<NewsArticleModel> data = news.articles;
 
-      cache.removeWhere((element) => element.yoastHeadJson.title == data[0].yoastHeadJson.title);
+      cache.articles.removeWhere((element) => element.title == data[0].title);
 
       await storage.write(
         StorageItems(
           key: CACHED_BOOKMARK,
-          value: json.encode(List<dynamic>.from(cache.map((x) => x.toJson())))
+          value: json.encode(
+            cache.toJson(),
+          ),
         ),
       );
       return true;
@@ -73,10 +78,10 @@ class BookmarkLocalDataSourceImpl implements BookmarkLocalDataSource {
   }
 
   @override
-  Future<List<ArticleModel>> readBookmark() async {
+  Future<NewsModel> readBookmark() async {
     final jsonString = await storage.read(CACHED_BOOKMARK);
     if (jsonString != null) {
-      return List<ArticleModel>.from(json.decode(jsonString).map((x) => ArticleModel.fromJson(x)));
+      return NewsModel.fromJson(json.decode(jsonString));
     } else {
       throw CacheException();
     }

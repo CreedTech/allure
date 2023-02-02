@@ -14,7 +14,7 @@ class BookmarkNewsGetEvent extends BookmarkNewsEvent {
 }
 
 class BookmarkNewsAddEvent extends BookmarkNewsEvent {
-  final ArticleEntity add;
+  final List<NewsArticleEntities> add;
   const BookmarkNewsAddEvent({
     required this.add,
   });
@@ -23,7 +23,7 @@ class BookmarkNewsAddEvent extends BookmarkNewsEvent {
 }
 
 class BookmarkNewsRemoveEvent extends BookmarkNewsEvent {
-  final ArticleEntity remove;
+  final List<NewsArticleEntities> remove;
   const BookmarkNewsRemoveEvent({
     required this.remove,
   });

@@ -2,17 +2,16 @@
 import 'dart:convert';
 
 
-import '../../../errors/error_handler.dart';
-import '../../../helpers/helper_storage.dart';
+import '../../../core/core.dart';
 import '../../models/article_model.dart';
 
 abstract class NewsLocalDataSource {
-  Future<List<ArticleModel>> cacheTrending(List<ArticleModel> news);
-  Future<List<ArticleModel>> getTrending();
-  Future<List<ArticleModel>> cacheHot(List<ArticleModel> news);
-  Future<List<ArticleModel>> getHotNews();
-  Future<List<ArticleModel>> cacheRecommendation(List<ArticleModel> news);
-  Future<List<ArticleModel>> getRecommendation();
+  Future<void> cacheTrending(NewsModel news);
+  Future<NewsModel> getTrending();
+  Future<void> cacheHot(NewsModel news);
+  Future<NewsModel> getHotNews();
+  Future<void> cacheRecommendation(NewsModel news);
+  Future<NewsModel> getRecommendation();
 }
 
 const CACHE_TRENDING = 'CACHE_TRENDING';
@@ -26,66 +25,69 @@ class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   });
 
   @override
-  Future<List<ArticleModel>> cacheTrending(List<ArticleModel> news) async {
+  Future<NewsModel> cacheTrending(NewsModel news) async {
     await storage.write(
       StorageItems(
         key: CACHE_TRENDING,
-          value: json.encode(List<dynamic>.from(news.map((x) => x.toJson())))
+        value: json.encode(
+          news.toJson(),
+        ),
       ),
     );
     return news;
   }
 
   @override
-  Future<List<ArticleModel>> getTrending() async {
+  Future<NewsModel> getTrending() async {
     final jsonString = await storage.read(CACHE_TRENDING);
     if (jsonString != null) {
-      return List<ArticleModel>.from(json.decode(jsonString).map((x) => ArticleModel.fromJson(x)));
-      // return ArticleModel.fromJson(json.decode(jsonString));
+      return NewsModel.fromJson(json.decode(jsonString));
     } else {
       throw CacheException();
     }
   }
 
   @override
-  Future<List<ArticleModel>> cacheHot(List<ArticleModel> news) async {
+  Future<void> cacheHot(NewsModel news) async {
     await storage.write(
       StorageItems(
         key: CACHE_HOT,
-          value: json.encode(List<dynamic>.from(news.map((x) => x.toJson())))
+        value: json.encode(
+          news.toJson(),
+        ),
       ),
     );
-    return news;
+    return;
   }
 
   @override
-  Future<List<ArticleModel>> getHotNews() async {
+  Future<NewsModel> getHotNews() async {
     final jsonString = await storage.read(CACHE_HOT);
     if (jsonString != null) {
-      return List<ArticleModel>.from(json.decode(jsonString).map((x) => ArticleModel.fromJson(x)));
-      // return ArticleModel.fromJson(json.decode(jsonString));
+      return NewsModel.fromJson(json.decode(jsonString));
     } else {
       throw CacheException();
     }
   }
 
   @override
-  Future<List<ArticleModel>> cacheRecommendation(List<ArticleModel> news) async {
+  Future<void> cacheRecommendation(NewsModel news) async {
     await storage.write(
       StorageItems(
         key: CACHE_RECOMMENDATION,
-        value: json.encode(List<dynamic>.from(news.map((x) => x.toJson())))
+        value: json.encode(
+          news.toJson(),
+        ),
       ),
     );
-    return news;
+    return;
   }
 
   @override
-  Future<List<ArticleModel>> getRecommendation() async {
+  Future<NewsModel> getRecommendation() async {
     final jsonString = await storage.read(CACHE_RECOMMENDATION);
     if (jsonString != null) {
-      return List<ArticleModel>.from(json.decode(jsonString).map((x) => ArticleModel.fromJson(x)));
-      // return ArticleModel.fromJson(json.decode(jsonString));
+      return NewsModel.fromJson(json.decode(jsonString));
     } else {
       throw CacheException();
     }
