@@ -5,11 +5,13 @@ import '../errors/error_handler.dart';
 
 abstract class NetworkChecher {
   Future<bool> get isConnected;
+
   Future<bool> hasConnection();
 }
 
 class NetworkCheckerImpl implements NetworkChecher {
   final ConnectivityResult result = ConnectivityResult.none;
+
   @override
   Future<bool> hasConnection() async {
     try {

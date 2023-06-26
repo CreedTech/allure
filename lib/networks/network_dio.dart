@@ -3,7 +3,6 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'network_constant.dart';
 
-
 enum MethodType { get, post }
 
 abstract class NetworkContainer {
@@ -16,7 +15,9 @@ abstract class NetworkContainer {
 
 class NetworkContainerImpl implements NetworkContainer {
   final Dio dio;
+
   NetworkContainerImpl({required this.dio});
+
   @override
   Future<Response> method({
     required String path,

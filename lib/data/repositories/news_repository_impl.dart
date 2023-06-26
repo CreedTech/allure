@@ -1,3 +1,4 @@
+import 'package:allure/domain/entities/category_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -16,6 +17,7 @@ class NewsRepositoryImpl implements NewsRepository {
   final NetworkChecher network;
 
   NewsRepositoryImpl(this.localSource, this.remoteSource, this.network);
+
   @override
   Future<Either<Failure, List<ArticleEntity>>> getRecommendation(
       {String? query, int? limit, int? page}) async {
@@ -276,8 +278,59 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> getNewsCategory({String? category, String? query, required int limit, required int page}) {
-    // TODO: implement getNewsCategory
-    throw UnimplementedError();
+  Future<Either<Failure, List<CategoryEntity>>> getNewsCategory(
+      {required int limit, required int page}) async {
+    if (await network.isConnected) {
+      try {
+        final remote = await remoteSource.getNewsCategory(
+          page: 1,
+          limit: 100,
+        );
+        // await localSource.cacheTrending(remote);
+        return Right(remote);
+      } on DioError catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+        // print(e.stackTrace);
+        // print(e.message);
+        return Left(
+          NetworkFailure(
+            responseException: ResponseException.getDioException(e),
+          ),
+        );
+      } catch (e) {
+        if (kDebugMode) {
+          print(e);
+        }
+        if (kDebugMode) {
+          print("Yo");
+        }
+        return Left(
+          NetworkFailure(
+            responseException: ResponseException.getDioException(e),
+          ),
+        );
+      }
+    } else {
+      try {
+        final local = await localSource.getCategory();
+        return Right(local);
+      } on CacheException catch (_) {
+        return Left(
+          CacheFailure(
+            message: "Failed to get Trending News",
+          ),
+        );
+      } catch (_) {
+        return Left(
+          NetworkFailure(
+            responseException: ResponseException.error(
+              type: EResponseException.NOINTERNETCONNECTION,
+            ),
+          ),
+        );
+      }
+    }
   }
 }

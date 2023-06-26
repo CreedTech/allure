@@ -1,22 +1,24 @@
 import 'package:allure/domain/entities/article_entity.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../data/models/news_model.dart';
 
 class NewsEntities extends Equatable {
   final String status;
   final int total;
   final List<ArticleEntity> articles;
+
   const NewsEntities({
     required this.status,
     required this.total,
     required this.articles,
   });
 
-  // NewsModel toModel() => NewsModel(
-  //       status: status,
-  //       total: total,
-  //       articles: articles.map((e) => e.toModel()).toList(),
-  //     );
+  NewsModel toModel() => NewsModel(
+        status: status,
+        total: total,
+        articles: articles.map((e) => e.toModel()).toList(),
+      );
 
   @override
   List<Object> get props => [status, total, articles];

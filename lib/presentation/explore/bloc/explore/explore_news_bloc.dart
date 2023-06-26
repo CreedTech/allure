@@ -11,6 +11,7 @@ part 'explore_news_state.dart';
 
 class ExploreNewsBloc extends Bloc<ExploreNewsEvent, ExploreNewsState> {
   final SearchNewsCase searchCase;
+
   ExploreNewsBloc({
     required this.searchCase,
   }) : super(const ExploreNewsState()) {

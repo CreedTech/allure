@@ -1,22 +1,38 @@
+import 'dart:async';
+
 import 'package:allure/presentation/home/bloc/theme/theme_mode_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 import 'components/component_constant.dart';
 import 'components/component_theme.dart';
+import 'data/tables/article_table.dart';
 import 'helpers/helper_routes.dart';
 import 'helpers/helper_routes_path.dart';
 import 'helpers/helper_utils.dart';
 import 'injector.dart';
 
 void main() async {
-  await init();
+  WidgetsFlutterBinding.ensureInitialized();
+  // FlutterSecureStorage storage = const FlutterSecureStorage();
+  //
+  // await storage.deleteAll();
+  unawaited(
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]));
+  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(appDocumentDir.path);
+  Hive.registerAdapter(ArticleTableAdapter());
+  unawaited(init());
 
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     setStatusBar();

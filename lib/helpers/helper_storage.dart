@@ -16,6 +16,7 @@ class StorageItems extends Equatable {
 
 class StorageHelper {
   final _localStorage = const FlutterSecureStorage();
+
   AndroidOptions _androidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
       );

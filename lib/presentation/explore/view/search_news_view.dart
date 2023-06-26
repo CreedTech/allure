@@ -1,4 +1,3 @@
-
 import 'package:allure/components/component_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -231,7 +230,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                         width: 115.w,
                                         height: 100.h,
                                         child: CachedNetworkImage(
-                                          imageUrl: data[index].yoastHeadJson!.ogImage![0].url!,
+                                          imageUrl: data[index].banner,
                                           // imageUrl: data[index].source.ogImage[0].url,
                                           imageBuilder: (c, image) => Container(
                                             decoration: BoxDecoration(
@@ -258,7 +257,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
-                                              data[index].yoastHeadJson!.title!,
+                                              data[index].title,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ).boldSized(14).colors(
@@ -269,7 +268,7 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
-                                              data[index].yoastHeadJson!.ogDescription,
+                                              data[index].description,
                                               maxLines: 2,
                                               textAlign: TextAlign.justify,
                                               overflow: TextOverflow.ellipsis,
@@ -286,13 +285,16 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                             ),
                                             decoration: BoxDecoration(
                                               color: colorPrimary,
-                                              borderRadius: BorderRadius.circular(5.r),
+                                              borderRadius:
+                                                  BorderRadius.circular(5.r),
                                             ),
-                                            child: Text(data[index].yoastHeadJson!.schema!.graph![0].articleSection!.join(' | ')).boldSized(8).colors(
-                                              Guide.isDark(context)
-                                                  ? colorWhite
-                                                  : colorWhite,
-                                            ),
+                                            child: Text(data[index].category)
+                                                .boldSized(8)
+                                                .colors(
+                                                  Guide.isDark(context)
+                                                      ? colorWhite
+                                                      : colorWhite,
+                                                ),
                                           ),
                                           SizedBox(
                                             width: 210.w,
@@ -303,17 +305,16 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                               children: [
                                                 Row(
                                                   children: [
-                                                    const Text(
-                                                        'BY'
-                                                    )
+                                                    const Text('BY')
                                                         .boldSized(10)
-                                                        .colors(
-                                                        colorTextGray),
+                                                        .colors(colorTextGray),
                                                     SizedBox(
                                                       width: 7.w,
                                                     ),
                                                     Text(
-                                                      data[index].yoastHeadJson!.author.toUpperCase(),
+                                                      data[index]
+                                                          .author
+                                                          .toUpperCase(),
                                                     )
                                                         .boldSized(10)
                                                         .colors(colorTextGray)

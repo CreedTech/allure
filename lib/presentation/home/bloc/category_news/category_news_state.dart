@@ -9,6 +9,7 @@ class CategoryNewsState extends Equatable {
   final int totalResult;
   final bool isFetching;
   final int currentPage;
+
   const CategoryNewsState({
     this.status = HomeBlocStatus.initial,
     this.article = const [],

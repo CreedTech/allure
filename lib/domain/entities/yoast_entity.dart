@@ -7,6 +7,7 @@ class YoastEntity extends Equatable {
   final String? ogUrl;
   final String ogDescription;
   final DateTime? articlePublishedTime;
+
   // final List<OgImage>? ogImage;
   final String author;
 
@@ -21,15 +22,14 @@ class YoastEntity extends Equatable {
   });
 
   YoastHeadJson toModel() => YoastHeadJson(
-    ogTitle: ogTitle,
-    ogDescription: ogDescription,
-    ogUrl: ogUrl,
-    articlePublishedTime: articlePublishedTime,
-    author: author
-  );
+      ogTitle: ogTitle,
+      ogDescription: ogDescription,
+      ogUrl: ogUrl,
+      articlePublishedTime: articlePublishedTime,
+      author: author);
 
   @override
-  List<Object> get props => [ogTitle, ogDescription,author];
+  List<Object> get props => [ogTitle, ogDescription, author];
 
   @override
   bool get stringify => true;

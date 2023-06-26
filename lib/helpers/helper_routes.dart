@@ -1,4 +1,5 @@
 import 'package:allure/domain/entities/article_entity.dart';
+import 'package:allure/presentation/home/view/contact_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,7 +35,7 @@ class RouterGenerator {
           BlocProvider(
             create: (context) => sl<ExploreNewsBloc>()
               ..add(
-                const ExploreSearchNews(query: "tech", page: 1),
+                const ExploreSearchNews(query: "entertainment", page: 1),
               ),
             child: const SearchNewsView(),
           ),
@@ -93,6 +94,13 @@ class RouterGenerator {
           );
         }
         break;
+
+      case contactUs:
+        return CustomPageRouteBuilder(
+          const ContactPage(),
+          ComponentPageTransitionAnimation.scale,
+          const RouteSettings(name: detail),
+        );
     }
     return null;
   }

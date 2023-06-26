@@ -1,4 +1,3 @@
-
 import '../../domain/entities/SourceEntity.dart';
 
 class SourceModel extends SourceEntity {
@@ -19,20 +18,19 @@ class SourceModel extends SourceEntity {
     this.country,
     this.language,
   }) : super(
-    id: id,
-    name: name,
-  );
+          id: id,
+          name: name,
+        );
 
   factory SourceModel.fromJson(Map<String, dynamic> json) {
     return SourceModel(
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      id: json['id'] ?? '',
-      url: json['url'] ?? '',
-      category: json['category'] ?? '',
-      country: json['country'] ?? '',
-      language: json['language'] ?? ''
-    );
+        name: json['name'] ?? '',
+        description: json['description'] ?? '',
+        id: json['id'] ?? '',
+        url: json['url'] ?? '',
+        category: json['category'] ?? '',
+        country: json['country'] ?? '',
+        language: json['language'] ?? '');
   }
 
   Map<String, dynamic> toJson() {

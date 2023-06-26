@@ -12,6 +12,7 @@ part 'category_news_state.dart';
 class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
   final GetHeadlinesCase headlinesCase;
   final GetRecommendationCase recommendationCase;
+
   CategoryNewsBloc({
     required this.headlinesCase,
     required this.recommendationCase,

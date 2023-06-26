@@ -9,24 +9,29 @@ abstract class BookmarkNewsEvent extends Equatable {
 
 class BookmarkNewsGetEvent extends BookmarkNewsEvent {
   const BookmarkNewsGetEvent();
+
   @override
   List<Object> get props => [];
 }
 
 class BookmarkNewsAddEvent extends BookmarkNewsEvent {
-  final ArticleEntity add;
+  final List<ArticleEntity> add;
+
   const BookmarkNewsAddEvent({
     required this.add,
   });
+
   @override
   List<Object> get props => [add];
 }
 
 class BookmarkNewsRemoveEvent extends BookmarkNewsEvent {
   final ArticleEntity remove;
+
   const BookmarkNewsRemoveEvent({
     required this.remove,
   });
+
   @override
   List<Object> get props => [remove];
 }

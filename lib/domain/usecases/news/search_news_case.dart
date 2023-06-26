@@ -12,7 +12,8 @@ class SearchNewsCase implements UseCase<List<ArticleEntity>, SearchNewsParams> {
   SearchNewsCase(this.repository);
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> call(SearchNewsParams params) async {
+  Future<Either<Failure, List<ArticleEntity>>> call(
+      SearchNewsParams params) async {
     return await repository.searchNews(
       limit: params.limit,
       page: params.page,
@@ -25,6 +26,7 @@ class SearchNewsParams extends Equatable {
   final String query;
   final int limit;
   final int page;
+
   const SearchNewsParams({
     required this.query,
     required this.limit,

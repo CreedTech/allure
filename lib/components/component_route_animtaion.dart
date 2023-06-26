@@ -23,6 +23,7 @@ class ComponentRouteAnimation {
             .animate(animation),
         child: child,
       );
+
   static Widget slideDownRoute(
           final BuildContext context,
           final Animation<double> animation,

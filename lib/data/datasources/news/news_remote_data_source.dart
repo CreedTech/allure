@@ -21,6 +21,7 @@ abstract class NewsRemoteDataSource {
     int? limit,
     int? page,
   });
+
   Future<List<CategoryModel>> getNewsCategory({
     // required bool isHeadlines,
     // String? query,
@@ -53,13 +54,12 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     final List<ArticleModel> articles = [];
     if (isHeadlines) {
       final response = await http.method(
-        path:
-        "posts?per_page=$limit&page=$page&order=desc",
+        path: "posts?_embed&per_page=$limit&page=$page&order=desc",
         methodType: MethodType.get,
       );
 
       if (response.statusCode == 200) {
-        for(Map<String, dynamic> i in response.data){
+        for (Map<String, dynamic> i in response.data) {
           articles.add(ArticleModel.fromJson(i));
           // print(i.toString());
         }
@@ -75,13 +75,12 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
       }
     } else {
       final response = await http.method(
-        path:
-            "posts?per_page=$limit&page=$page",
+        path: "posts?_embed&per_page=$limit&page=$page",
         methodType: MethodType.get,
       );
 
       if (response.statusCode == 200) {
-        for(Map<String, dynamic> i in response.data){
+        for (Map<String, dynamic> i in response.data) {
           articles.add(ArticleModel.fromJson(i));
           // print(i.toString());
         }
@@ -99,53 +98,52 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
   }
 
   @override
-  Future<List<CategoryModel>> getNewsCategory({ int? limit, int? page}) async {
-    limit ??= 1;
+  Future<List<CategoryModel>> getNewsCategory({int? limit, int? page}) async {
+    limit ??= 20;
     page ??= 1;
     final List<CategoryModel> categories = [];
-      final response = await http.method(
-        path:
-        "categories",
-        methodType: MethodType.get,
-      );
+    final response = await http.method(
+      path: "categories?_embed&per_page=$limit&page=$page",
+      methodType: MethodType.get,
+    );
 
-      if (response.statusCode == 200) {
-        for(Map<String, dynamic> i in response.data){
-          categories.add(CategoryModel.fromJson(i));
-          if (kDebugMode) {
-            print(i.toString());
-          }
-        }
+    if (response.statusCode == 200) {
+      for (Map<String, dynamic> i in response.data) {
+        categories.add(CategoryModel.fromJson(i));
         if (kDebugMode) {
-          print(categories.map((e) => e.name));
+          print(i.toString());
         }
-        // print(categories);
-        if (kDebugMode) {
-          print(response.data);
-        }
-        return categories;
-        // return ArticleModel.fromJson(response.data);
-      } else {
-        if (kDebugMode) {
-          print(DioError);
-        }
-        throw DioError;
       }
+      if (kDebugMode) {
+        print(categories);
+      }
+      // print(categories);
+      if (kDebugMode) {
+        print(response.data);
+      }
+      return categories;
+      // return ArticleModel.fromJson(response.data);
+    } else {
+      if (kDebugMode) {
+        print(DioError);
+      }
+      throw DioError;
+    }
 
     // TODO: implement getNewByCategory
   }
 
   @override
-  Future<List<ArticleModel>> searchNewGlobal({required String query, int? limit, int? page}) async {
+  Future<List<ArticleModel>> searchNewGlobal(
+      {required String query, int? limit, int? page}) async {
     final List<ArticleModel> articles = [];
     final response = await http.method(
-      path:
-      "search?search=$query",
+      path: "posts?_embed&search=$query",
       methodType: MethodType.get,
     );
 
     if (response.statusCode == 200) {
-      for(Map<String, dynamic> i in response.data){
+      for (Map<String, dynamic> i in response.data) {
         articles.add(ArticleModel.fromJson(i));
         if (kDebugMode) {
           print(i.toString());

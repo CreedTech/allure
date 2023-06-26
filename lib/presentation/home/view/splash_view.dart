@@ -59,7 +59,7 @@ class _SplashViewState extends State<SplashView> {
                               : colorTextGray),
                       const Icon(
                         Icons.favorite,
-                        color: Colors.red,
+                        color: colorPrimary,
                       )
                     ],
                   ),

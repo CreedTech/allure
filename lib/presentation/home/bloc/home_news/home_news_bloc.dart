@@ -15,6 +15,7 @@ class HomeNewsBloc extends Bloc<HomeNewsEvent, HomeNewsState> {
   final GetTrendingCase getTrendingCase;
   final GetHotCase hotCase;
   final GetRecommendationCase recommendationCase;
+
   HomeNewsBloc({
     required this.getTrendingCase,
     required this.hotCase,

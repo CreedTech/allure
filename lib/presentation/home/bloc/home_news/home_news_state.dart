@@ -10,6 +10,7 @@ class HomeNewsState extends Equatable {
   final List<CategoryEntity>? category;
 
   final String message;
+
   const HomeNewsState({
     this.statusTrending = HomeBlocStatus.initial,
     this.statusHot = HomeBlocStatus.initial,
@@ -52,6 +53,6 @@ class HomeNewsState extends Equatable {
         message,
         recommendation,
         hot,
-    category
+        category
       ];
 }

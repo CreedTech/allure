@@ -21,3 +21,14 @@ class RemoveBookmarkParams {
 
   RemoveBookmarkParams(this.news);
 }
+
+// class RemoveBookmarkCase extends UseCase<void, ArticleParams> {
+//   final BookmarkRepository repository;
+//
+//   RemoveBookmarkCase(this.repository);
+//
+//   @override
+//   Future<Either<Failure, void>> call(ArticleParams params) async {
+//     return await repository.deleteFavoriteArticle(params.id);
+//   }
+// }

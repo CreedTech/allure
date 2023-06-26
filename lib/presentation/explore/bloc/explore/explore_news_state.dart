@@ -10,6 +10,7 @@ class ExploreNewsState extends Equatable {
   final bool isFetching;
   final int currentPage;
   final String keyword;
+
   const ExploreNewsState({
     this.status = ExploreBlocStatus.initial,
     this.article = const [],

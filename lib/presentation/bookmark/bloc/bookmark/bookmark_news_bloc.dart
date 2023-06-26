@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../domain/domain.dart';
 import '../../../../domain/entities/article_entity.dart';
@@ -15,6 +16,7 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
   final AddBookmarkCase addBookmarkCase;
   final GetBookmarkCase getBookmarkCase;
   final RemoveBookmarkCase removeBookmarkCase;
+
   BookmarkNewsBloc({
     required this.addBookmarkCase,
     required this.getBookmarkCase,
@@ -31,20 +33,31 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
     emit(state.copyWith(status: BookmarkBlocStatus.loading));
     await getBookmarkCase(NoParams()).then(
       (value) => value.fold(
-        (l) => emit(
-          state.copyWith(
-            status: BookmarkBlocStatus.failure,
-            message: Guide.failureToMessage(l),
-          ),
-        ),
-        (r) => emit(
+          (l) => emit(
+                state.copyWith(
+                  status: BookmarkBlocStatus.failure,
+                  message: Guide.failureToMessage(l),
+                ),
+              ), (r) {
+        emit(
           state.copyWith(
             status: BookmarkBlocStatus.loaded,
             response: r,
           ),
-        ),
-      ),
+        );
+        if (kDebugMode) {
+          print("Printing");
+        }
+        if (kDebugMode) {
+          print(r);
+        }
+        if (kDebugMode) {
+          print("Printed");
+        }
+      }),
     );
+    // print("response");
+    // print(state.response);
     return;
   }
 
@@ -52,6 +65,8 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
       BookmarkNewsAddEvent event, Emitter<BookmarkNewsState> emit) async {
     emit(state.copyWith(status: BookmarkBlocStatus.loading));
     final data = NewsEntities(status: "ok", total: 1, articles: event.add);
+    // List.of(state.response : event.add);
+    // NewsEntities(status: "ok", total: 1, articles: event.add);
     await addBookmarkCase(AddBookmarkParams(data)).then(
       (value) => value.fold(
         (l) => emit(
@@ -62,8 +77,12 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
         ),
         (r) => emit(
           state.copyWith(
+            // response: state.response..add(event.add),
             status: BookmarkBlocStatus.loaded,
           ),
+          // state.copyWith(
+          //   status: BookmarkBlocStatus.loaded,
+          // ),
         ),
       ),
     );
@@ -72,8 +91,9 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
 
   void _onBookmarkNewsRemoveEvent(
       BookmarkNewsRemoveEvent event, Emitter<BookmarkNewsState> emit) async {
-    final data = NewsEntities(status: "ok", total: 1, articles: event.remove);
-    await removeBookmarkCase(RemoveBookmarkParams(data as List<ArticleEntity>)).then(
+    final data = [];
+    await removeBookmarkCase(RemoveBookmarkParams(data as List<ArticleEntity>))
+        .then(
       (value) => value.fold(
         (l) => emit(
           state.copyWith(
@@ -83,8 +103,12 @@ class BookmarkNewsBloc extends Bloc<BookmarkNewsEvent, BookmarkNewsState> {
         ),
         (r) => emit(
           state.copyWith(
+            // response: List.of(state.response)..add(event.remove),
             status: BookmarkBlocStatus.loaded,
           ),
+          // state.copyWith(
+          //   status: BookmarkBlocStatus.loaded,
+          // ),
         ),
       ),
     );

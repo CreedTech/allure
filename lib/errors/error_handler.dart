@@ -28,11 +28,13 @@ enum EResponseException {
   UNEXPECTEDERROR(UNEXPECTED_ERROR);
 
   const EResponseException(this.message);
+
   final String message;
 }
 
 class ResponseException {
   String message;
+
   ResponseException({
     this.message = "",
   });

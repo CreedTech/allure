@@ -1,4 +1,3 @@
-
 import 'package:allure/components/component_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +110,7 @@ class _HomeViewState extends State<HomeView> {
             context.read<HomeNewsBloc>().add(const GetRecommendationNews());
             context.read<HomeNewsBloc>().add(const GetHotNews());
             context.read<HomeNewsBloc>().add(const GetTrendingNews());
+            // context.read<CategoryNewsBloc>().add(const GetCategory());
           },
           child: Container(
             decoration: BoxDecoration(
@@ -281,10 +281,7 @@ class _HomeViewState extends State<HomeView> {
                                     height: 100.h,
                                     child: CachedNetworkImage(
                                       // imageUrl: recommendation[index].source.ogImage[0].url,
-                                      imageUrl: recommendation[index]
-                                          .yoastHeadJson!
-                                          .ogImage![0]
-                                          .url!,
+                                      imageUrl: recommendation[index].banner,
                                       imageBuilder: (c, image) => Container(
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
@@ -310,9 +307,7 @@ class _HomeViewState extends State<HomeView> {
                                       SizedBox(
                                         width: 220.w,
                                         child: Text(
-                                          recommendation[index]
-                                              .yoastHeadJson!
-                                              .title!,
+                                          recommendation[index].title,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ).boldSized(14).colors(
@@ -323,9 +318,7 @@ class _HomeViewState extends State<HomeView> {
                                       SizedBox(
                                         width: 220.w,
                                         child: Text(
-                                          recommendation[index]
-                                              .yoastHeadJson!
-                                              .ogDescription,
+                                          recommendation[index].description,
                                           maxLines: 2,
                                           textAlign: TextAlign.justify,
                                           overflow: TextOverflow.ellipsis,
@@ -345,18 +338,14 @@ class _HomeViewState extends State<HomeView> {
                                           borderRadius:
                                               BorderRadius.circular(5.r),
                                         ),
-                                        child: Text(recommendation[index]
-                                                .yoastHeadJson!
-                                                .schema!
-                                                .graph![0]
-                                                .articleSection!
-                                                .join(' | '))
-                                            .boldSized(8)
-                                            .colors(
-                                              Guide.isDark(context)
-                                                  ? colorWhite
-                                                  : colorWhite,
-                                            ),
+                                        child:
+                                            Text(recommendation[index].category)
+                                                .boldSized(8)
+                                                .colors(
+                                                  Guide.isDark(context)
+                                                      ? colorWhite
+                                                      : colorWhite,
+                                                ),
                                       ),
                                       SizedBox(
                                         width: 210.w,
@@ -374,7 +363,6 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                                 Text(
                                                   recommendation[index]
-                                                      .yoastHeadJson!
                                                       .author
                                                       .toUpperCase(),
                                                 )
@@ -499,10 +487,7 @@ class _HomeViewState extends State<HomeView> {
                                       children: [
                                         CachedNetworkImage(
                                           // imageUrl: articles[index].source.ogImage[0].url,
-                                          imageUrl: articles[index]
-                                              .yoastHeadJson!
-                                              .ogImage![0]
-                                              .url!,
+                                          imageUrl: articles[index].banner,
                                           imageBuilder: (c, image) => Container(
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
@@ -578,12 +563,7 @@ class _HomeViewState extends State<HomeView> {
                                       color: colorPrimary,
                                       borderRadius: BorderRadius.circular(5.r),
                                     ),
-                                    child: Text(articles[index]
-                                            .yoastHeadJson!
-                                            .schema!
-                                            .graph![0]
-                                            .articleSection!
-                                            .join(' | '))
+                                    child: Text(articles[index].category)
                                         .boldSized(8)
                                         .colors(
                                           Guide.isDark(context)
@@ -600,7 +580,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: SizedBox(
                                     width: 164.w,
                                     child: Text(
-                                      articles[index].yoastHeadJson!.title!,
+                                      articles[index].title,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ).boldSized(15).colors(
@@ -635,7 +615,6 @@ class _HomeViewState extends State<HomeView> {
                                               width: 70.w,
                                               child: Text(
                                                 articles[index]
-                                                    .yoastHeadJson!
                                                     .author
                                                     .toUpperCase(),
                                                 overflow: TextOverflow.ellipsis,
@@ -681,7 +660,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _categorySliderWidget() {
     List category = [
-      'business',
+      'news',
       'entertainment',
       'general',
       'health',
@@ -732,7 +711,7 @@ class _HomeViewState extends State<HomeView> {
                               name: categoryNews,
                               arguments: CategoryNewsViewArgument(
                                 category: category[index],
-                                query: "",
+                                query: category[index],
                                 isKeyword: false,
                               ),
                             ),
@@ -835,8 +814,7 @@ class _HomeViewState extends State<HomeView> {
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
                           // imageUrl: trending[index].source.ogImage[0].url,
-                          imageUrl:
-                              trending[index].yoastHeadJson!.ogImage![0].url!,
+                          imageUrl: trending[index].banner,
                           imageBuilder: (c, image) => Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -892,7 +870,7 @@ class _HomeViewState extends State<HomeView> {
                                     SizedBox(
                                       width: 260.w,
                                       child: Text(
-                                        trending[index].yoastHeadJson!.title!,
+                                        trending[index].title,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       ).boldSized(18).colors(
@@ -934,7 +912,6 @@ class _HomeViewState extends State<HomeView> {
                                           width: 7.w,
                                         ),
                                         Text(trending[index]
-                                                .yoastHeadJson!
                                                 .author
                                                 .toUpperCase())
                                             .boldSized(10)
@@ -968,12 +945,7 @@ class _HomeViewState extends State<HomeView> {
                             color: colorPrimary,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
-                          child: Text(trending[index]
-                                  .yoastHeadJson!
-                                  .schema!
-                                  .graph![0]
-                                  .articleSection!
-                                  .join(' | '))
+                          child: Text(trending[index].category)
                               .boldSized(11)
                               .colors(
                                 Guide.isDark(context) ? colorWhite : colorWhite,
@@ -997,15 +969,16 @@ class _HomeViewState extends State<HomeView> {
                                   width: 15,
                                   decoration: _cIndex == index
                                       ? BoxDecoration(
-                                          color:
-                                              colorPrimary, // Selected Slider Indicator Color
+                                          color: colorPrimary,
+                                          // Selected Slider Indicator Color
                                           borderRadius:
                                               BorderRadius.circular(15.r),
                                         )
                                       : BoxDecoration(
                                           color: Guide.isDark(context)
                                               ? darkThemeText
-                                              : colorGray, // Selected Slider Indicator Color
+                                              : colorGray,
+                                          // Selected Slider Indicator Color
                                           borderRadius:
                                               BorderRadius.circular(15.r),
                                         ),

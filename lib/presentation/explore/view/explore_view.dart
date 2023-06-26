@@ -1,4 +1,3 @@
-
 import 'package:allure/components/component_style.dart';
 import 'package:allure/domain/entities/article_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -86,7 +85,7 @@ class _ExploreViewsState extends State<ExploreViews> {
             onRefresh: () async {
               context.read<HomeNewsBloc>().add(
                     const GetRecommendationNews(
-                      query: "technology",
+                      query: "entertainment",
                       limit: 7,
                       page: 1,
                     ),
@@ -179,17 +178,19 @@ class _ExploreViewsState extends State<ExploreViews> {
                                               borderRadius:
                                                   BorderRadius.circular(10.r),
                                               child: SizedBox(
-                                                width: 140.w,
+                                                width: 115.w,
                                                 height: 110.h,
                                                 child: CachedNetworkImage(
                                                   // imageUrl: recommendation[index].source.ogImage[0].url,
-                                                  imageUrl: recommendation[index].yoastHeadJson!.ogImage![0].url!,
+                                                  imageUrl:
+                                                      recommendation[index]
+                                                          .banner,
                                                   imageBuilder: (c, image) =>
                                                       Container(
                                                     decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                         image: image,
-                                                        fit: BoxFit.fill,
+                                                        fit: BoxFit.cover,
                                                       ),
                                                     ),
                                                   ),
@@ -214,7 +215,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                       width: 180.w,
                                                       child: Text(
                                                         recommendation[index]
-                                                            .yoastHeadJson!.title!,
+                                                            .title,
                                                         maxLines: 2,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -232,7 +233,7 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                       width: 175.w,
                                                       child: Text(
                                                         recommendation[index]
-                                                            .yoastHeadJson!.ogDescription,
+                                                            .description,
                                                         maxLines: 2,
                                                         overflow: TextOverflow
                                                             .ellipsis,
@@ -247,19 +248,28 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                       height: 5.h,
                                                     ),
                                                     Container(
-                                                      padding: EdgeInsets.symmetric(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
                                                         vertical: 6.h,
                                                         horizontal: 6.w,
                                                       ),
                                                       decoration: BoxDecoration(
                                                         color: colorPrimary,
-                                                        borderRadius: BorderRadius.circular(5.r),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5.r),
                                                       ),
-                                                      child: Text(recommendation[index].yoastHeadJson!.schema!.graph![0].articleSection!.join(' | ')).boldSized(8).colors(
-                                                        Guide.isDark(context)
-                                                            ? colorsBlack
-                                                            : colorWhite,
-                                                      ),
+                                                      child: Text(
+                                                              recommendation[
+                                                                      index]
+                                                                  .category)
+                                                          .boldSized(8)
+                                                          .colors(
+                                                            Guide.isDark(
+                                                                    context)
+                                                                ? colorsBlack
+                                                                : colorWhite,
+                                                          ),
                                                     ),
                                                     // Text(
                                                     //     recommendation[index].yoastHeadJson!.schema!.graph![0].articleSection!.join(' | ')
@@ -276,19 +286,16 @@ class _ExploreViewsState extends State<ExploreViews> {
                                                         children: [
                                                           Row(
                                                             children: [
-                                                              Text(
-                                                                'BY'
-                                                              )
+                                                              const Text('BY')
                                                                   .boldSized(10)
                                                                   .colors(
-                                                                  colorTextGray),
+                                                                      colorTextGray),
                                                               SizedBox(
                                                                 width: 7.w,
                                                               ),
                                                               Text(
                                                                 recommendation[
                                                                         index]
-                                                                    .yoastHeadJson!
                                                                     .author,
                                                               )
                                                                   .boldSized(10)

@@ -10,6 +10,7 @@ class GetRecommendationCase
   final NewsRepository repository;
 
   GetRecommendationCase(this.repository);
+
   @override
   Future<Either<Failure, List<ArticleEntity>>> call(
       GetRecommendationParams params) async {

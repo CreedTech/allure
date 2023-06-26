@@ -27,6 +27,7 @@ class CategoryNewsGetByHeadlines extends CategoryNewsEvent {
 class CategoryNewsGetMoreByHeadlines extends CategoryNewsEvent {
   final String category;
   final String? query;
+
   const CategoryNewsGetMoreByHeadlines({
     required this.category,
     this.query,
@@ -53,6 +54,7 @@ class CategoryNewsGetByEverything extends CategoryNewsEvent {
 
 class CategoryNewsGetMoreByEverything extends CategoryNewsEvent {
   final String? query;
+
   const CategoryNewsGetMoreByEverything({
     this.query,
   });

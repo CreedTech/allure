@@ -25,6 +25,7 @@ class GetRecommendationNews extends HomeNewsEvent {
   final String? query;
   final int? limit;
   final int? page;
+
   const GetRecommendationNews({
     this.query,
     this.limit,

@@ -23,6 +23,7 @@ class ExploreSearchNews extends ExploreNewsEvent {
 
 class ExploreSearchNewsMore extends ExploreNewsEvent {
   const ExploreSearchNewsMore();
+
   @override
   List<Object> get props => [];
 }
