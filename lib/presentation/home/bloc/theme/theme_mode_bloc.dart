@@ -1,7 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../../helpers/helper_storage.dart';
+import '../../../../core/core.dart';
+
 
 part 'theme_mode_event.dart';
 part 'theme_mode_state.dart';

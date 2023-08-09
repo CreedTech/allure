@@ -1,19 +1,21 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../errors/error.dart';
-import '../../../usecases/case.dart';
+import '../../../core/core.dart';
 import '../../domain.dart';
-import '../../entities/article_entity.dart';
 
-class SearchNewsCase implements UseCase<List<ArticleEntity>, SearchNewsParams> {
+class SearchNewsCase implements UseCase<NewsEntities, SearchNewsParams> {
   final NewsRepository repository;
 
   SearchNewsCase(this.repository);
 
   @override
+<<<<<<< HEAD
   Future<Either<Failure, List<ArticleEntity>>> call(
       SearchNewsParams params) async {
+=======
+  Future<Either<Failure, NewsEntities>> call(SearchNewsParams params) async {
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
     return await repository.searchNews(
       limit: params.limit,
       page: params.page,

@@ -7,12 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
-import 'components/component_constant.dart';
-import 'components/component_theme.dart';
+import 'core/core.dart';
 import 'data/tables/article_table.dart';
-import 'helpers/helper_routes.dart';
-import 'helpers/helper_routes_path.dart';
-import 'helpers/helper_utils.dart';
 import 'injector.dart';
 
 void main() async {

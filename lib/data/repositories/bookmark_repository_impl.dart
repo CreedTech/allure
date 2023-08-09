@@ -1,11 +1,13 @@
-import 'package:allure/data/models/article_model.dart';
-import 'package:allure/domain/entities/article_entity.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../core/core.dart';
 import '../../domain/abstraction/bookmark_repository.dart';
 import '../../domain/entitites/news_entities.dart';
+<<<<<<< HEAD
 import '../../errors/error.dart';
 import '../../errors/error_handler.dart';
+=======
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
 import '../datasources/bookmarks/bookmarks_local_data_source.dart';
 
 class BookmarkRepositoryImpl implements BookmarkRepository {
@@ -58,10 +60,14 @@ class BookmarkRepositoryImpl implements BookmarkRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> removeBookmark(List<ArticleEntity> news) async {
+  Future<Either<Failure, bool>> removeBookmark(NewsEntities news) async {
     try {
+<<<<<<< HEAD
       final local =
           await localDataSource.removeBookmark(news as List<ArticleModel>);
+=======
+      final local = await localDataSource.removeBookmark(news.toModel());
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
       return Right(local);
     } on CacheException catch (_) {
       return Left(

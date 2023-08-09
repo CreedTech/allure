@@ -2,8 +2,8 @@ part of 'category_news_bloc.dart';
 
 class CategoryNewsState extends Equatable {
   final HomeBlocStatus status;
-  final List<ArticleEntity>? response;
-  final List<ArticleEntity> article;
+  final NewsEntities? response;
+  final List<NewsArticleEntities> article;
   final String message;
   final bool hasReachedMax;
   final int totalResult;
@@ -23,8 +23,8 @@ class CategoryNewsState extends Equatable {
 
   CategoryNewsState copyWith({
     HomeBlocStatus? status,
-    List<ArticleEntity>? response,
-    List<ArticleEntity>? article,
+    NewsEntities? response,
+    List<NewsArticleEntities>? article,
     String? message,
     bool? hasReachedMax,
     int? totalResult,

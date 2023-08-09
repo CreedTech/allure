@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../components/component_skeleton.dart';
+import '../../../core/components/component_skeleton.dart';
+
 
 class HotSekeletonWidget extends StatelessWidget {
   const HotSekeletonWidget({

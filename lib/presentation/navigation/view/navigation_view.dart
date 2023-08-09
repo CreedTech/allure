@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import '../../../components/component_theme.dart';
+import '../../../core/components/component_theme.dart';
 import '../../../injector.dart';
 import '../../bookmark/bloc/bookmark/bookmark_news_bloc.dart';
 import '../../bookmark/view/bookmark_view.dart';

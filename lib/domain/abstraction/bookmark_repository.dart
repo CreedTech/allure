@@ -1,14 +1,22 @@
 import 'package:dartz/dartz.dart';
 
+<<<<<<< HEAD
 import '../../errors/error.dart';
 import '../entities/article_entity.dart';
+=======
+import '../../core/core.dart';
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
 import '../entitites/news_entities.dart';
 
 abstract class BookmarkRepository {
   Future<Either<Failure, bool>> addBookmark(NewsEntities news);
+<<<<<<< HEAD
 
   Future<Either<Failure, bool>> removeBookmark(List<ArticleEntity> news);
 
+=======
+  Future<Either<Failure, bool>> removeBookmark(NewsEntities news);
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
   Future<Either<Failure, NewsEntities>> readBookmark();
 }
 

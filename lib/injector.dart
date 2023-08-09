@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import 'core/core.dart';
 import 'data/datasources/bookmarks/bookmarks_local_data_source.dart';
 import 'data/datasources/news/news_local_data_source.dart';
 import 'data/datasources/news/news_remote_data_source.dart';
@@ -9,12 +10,6 @@ import 'data/repositories/news_repository_impl.dart';
 import 'domain/abstraction/bookmark_repository.dart';
 import 'domain/domain.dart';
 import 'domain/usecases/bookmarks/remove_bookmark_case.dart';
-import 'helpers/helper_routes.dart';
-import 'helpers/helper_storage.dart';
-import 'helpers/helper_utils.dart';
-import 'networks/network_checker.dart';
-import 'networks/network_constant.dart';
-import 'networks/network_dio.dart';
 import 'presentation/bookmark/bloc/injection_explore_bloc.dart';
 import 'presentation/explore/bloc/injection_explore_bloc.dart';
 import 'presentation/home/bloc/injection_home_bloc.dart';
@@ -48,7 +43,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetTrendingCase(sl()));
   sl.registerLazySingleton(() => GetHotCase(sl()));
   sl.registerLazySingleton(() => GetRecommendationCase(sl()));
-  sl.registerLazySingleton(() => GetHeadlinesCase(sl()));
+  // sl.registerLazySingleton(() => GetHeadlinesCase(sl()));
   sl.registerLazySingleton(() => SearchNewsCase(sl()));
 
   sl.registerLazySingleton(() => AddBookmarkCase(sl()));
@@ -57,17 +52,17 @@ Future<void> init() async {
 
   //! Data
 
-  /// Datasources
-  sl.registerLazySingleton<NewsRemoteDataSource>(
-    () => NewsRemoteDataSourceImpl(
-      http: sl(),
-    ),
-  );
-  sl.registerLazySingleton<NewsLocalDataSource>(
-    () => NewsLocalDataSourceImpl(
-      storage: sl(),
-    ),
-  );
+  // /// Datasources
+  // sl.registerLazySingleton<NewsRemoteDataSource>(
+  //   () => NewsRemoteDataSourceImpl(
+  //     http: sl(),
+  //   ),
+  // );
+  // sl.registerLazySingleton<NewsLocalDataSource>(
+  //   () => NewsLocalDataSourceImpl(
+  //     storage: sl(),
+  //   ),
+  // );
   sl.registerLazySingleton<BookmarkLocalDataSource>(
     () => BookmarkLocalDataSourceImpl(
       sl(),

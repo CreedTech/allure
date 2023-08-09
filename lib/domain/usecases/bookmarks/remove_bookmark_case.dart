@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../errors/error.dart';
-import '../../../usecases/case.dart';
+import '../../../core/core.dart';
 import '../../abstraction/bookmark_repository.dart';
-import '../../entities/article_entity.dart';
+import '../../domain.dart';
 
 class RemoveBookmarkCase implements UseCase<bool, RemoveBookmarkParams> {
   final BookmarkRepository repository;
@@ -17,7 +16,7 @@ class RemoveBookmarkCase implements UseCase<bool, RemoveBookmarkParams> {
 }
 
 class RemoveBookmarkParams {
-  final List<ArticleEntity> news;
+  final NewsEntities news;
 
   RemoveBookmarkParams(this.news);
 }

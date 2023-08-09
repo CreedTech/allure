@@ -1,9 +1,9 @@
-import 'package:allure/components/component_style.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
+
 
 class ContactPage extends StatelessWidget {
   const ContactPage({Key? key}) : super(key: key);

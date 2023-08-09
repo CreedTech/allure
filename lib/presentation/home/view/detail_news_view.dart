@@ -1,5 +1,3 @@
-import 'package:allure/components/component_style.dart';
-import 'package:allure/domain/entities/article_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,13 +6,12 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
+import '../../../domain/domain.dart';
 import '../../bookmark/bloc/bookmark/bookmark_news_bloc.dart';
 
 class DetailNewsView extends StatelessWidget {
-  final List<ArticleEntity> response;
-
+  final List<NewsArticleEntities> response;
   const DetailNewsView({
     super.key,
     required this.response,
@@ -40,18 +37,16 @@ class DetailNewsView extends StatelessWidget {
               expandedHeight: 350.h,
               floating: true,
               pinned: true,
-              // title: Container(
-              //   padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
-              //   decoration: BoxDecoration(
-              //     color: Guide.isDark(context) ? colorsBlack : colorWhite,
-              //     borderRadius: BorderRadius.circular(10.r),
-              //   ),
-              //   child: Text(
-              //     Uri.parse(response[0].link).host,
-              //   )
-              //       .normalSized(15)
-              //       .colors(Guide.isDark(context) ? colorWhite : colorPrimary),
-              // ),
+              title: Container(
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
+                decoration: BoxDecoration(
+                  color: Guide.isDark(context) ? colorsBlack : colorWhite,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Text(
+                  Uri.parse(response[0].yoastHeadJson.ogUrl).host,
+                ).normalSized(15).colors(Guide.isDark(context) ? colorWhite : colorPrimary),
+              ),
               centerTitle: true,
               elevation: 0,
               backgroundColor: Guide.isDark(context) ? colorsBlack : colorWhite,
@@ -107,7 +102,7 @@ class DetailNewsView extends StatelessWidget {
                     children: [
                       CachedNetworkImage(
                         // imageUrl: response[0].source.ogImage[0].url,
-                        imageUrl: response[0].banner,
+                        imageUrl: response[0].yoastHeadJson.ogImage[0].url,
                         imageBuilder: (c, image) => Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -214,42 +209,40 @@ class DetailNewsView extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 350.w,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        response[0].author.toUpperCase(),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ).boldSized(17).colors(
-                                            Guide.isDark(context)
-                                                ? darkThemeText
-                                                : colorsBlack,
-                                          ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 6.h,
-                                          horizontal: 6.w,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: colorPrimary,
-                                          borderRadius:
-                                              BorderRadius.circular(5.r),
-                                        ),
-                                        child: Text(response[0].category)
-                                            .boldSized(8)
-                                            .colors(
-                                              Guide.isDark(context)
-                                                  ? colorWhite
-                                                  : colorWhite,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+
+                               SizedBox(
+                                 width: 350.w,
+                                 child: Row(
+                                   mainAxisAlignment:
+                                   MainAxisAlignment.spaceBetween,
+                                   children: [
+                                     Text(
+                                       response[0].yoastHeadJson.author.toUpperCase(),
+                                       maxLines: 1,
+                                       overflow: TextOverflow.ellipsis,
+                                     ).boldSized(17).colors(
+                                       Guide.isDark(context)
+                                           ? darkThemeText
+                                           : colorTextGray,
+                                     ),
+                                     Container(
+                                       padding: EdgeInsets.symmetric(
+                                         vertical: 6.h,
+                                         horizontal: 6.w,
+                                       ),
+                                       decoration: BoxDecoration(
+                                         color: colorPrimary,
+                                         borderRadius: BorderRadius.circular(5.r),
+                                       ),
+                                       child: Text(response[0].yoastHeadJson.schema.graph[0].articleSection.join(' | ')).boldSized(8).colors(
+                                         Guide.isDark(context)
+                                             ? colorWhite
+                                             : colorWhite,
+                                       ),
+                                     ),
+                                   ],
+                                 ),
+                               ),
                               ],
                             ),
                           ],
@@ -259,7 +252,7 @@ class DetailNewsView extends StatelessWidget {
                         height: 10.h,
                       ),
                       Text(
-                        response[0].title,
+                        response[0].title.rendered,
                       ).blackSized(20).colors(
                             Guide.isDark(context) ? darkThemeText : colorsBlack,
                           ),
@@ -268,7 +261,7 @@ class DetailNewsView extends StatelessWidget {
                       ),
                       Container(
                         child: Text(
-                          response[0].description,
+                          response[0].content.rendered,
                         ).normalSized(13).colors(
                               Guide.isDark(context)
                                   ? darkThemeText
@@ -278,20 +271,10 @@ class DetailNewsView extends StatelessWidget {
                       SizedBox(
                         height: 10.h,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          _launchInBrowser(Uri.parse(response[0].link));
-                        },
-                        child: Container(
-                          child: Text(
-                            response[0].link,
-                          ).normalSized(10).colors(Guide.isDark(context)
-                              ? colorWhite
-                              : colorPrimary),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 70.h,
+                      Container(
+                        child: Text(
+                          response[0].link,
+                        ).normalSized(10).colors(Guide.isDark(context) ? colorWhite : colorPrimary),
                       ),
                     ],
                   ),

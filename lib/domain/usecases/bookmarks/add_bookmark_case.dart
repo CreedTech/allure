@@ -1,10 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../errors/error.dart';
-import '../../../usecases/case.dart';
+import '../../../core/core.dart';
 import '../../abstraction/bookmark_repository.dart';
+<<<<<<< HEAD
 import '../../entitites/news_entities.dart';
+=======
+import '../../../../domain/domain.dart';
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
 
 class AddBookmarkCase implements UseCase<void, AddBookmarkParams> {
   final BookmarkRepository repository;

@@ -1,9 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/core.dart';
 import '../../../../domain/domain.dart';
-import '../../../../domain/entities/article_entity.dart';
-import '../../../../helpers/helper_utils.dart';
 import '../enum_home_bloc.dart';
 
 part 'category_news_event.dart';
@@ -46,14 +45,14 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
           ),
         ),
         (r) {
-          var hasMax = 2000 / event.limit;
+          var hasMax = r.total / event.limit;
           emit(
             state.copyWith(
               currentPage: event.page,
               hasReachedMax: hasMax.round() > 1 ? false : true,
               response: r,
-              article: r,
-              totalResult: 2000,
+              article: r.articles,
+              totalResult: r.total,
               status: HomeBlocStatus.loaded,
             ),
           );
@@ -84,14 +83,14 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
           ),
         ),
         (r) {
-          var hasMax = 2000 / event.limit;
+          var hasMax = r.total / event.limit;
           emit(
             state.copyWith(
               currentPage: event.page,
               hasReachedMax: hasMax.round() > 1 ? false : true,
               response: r,
-              article: r,
-              totalResult: 2000,
+              article: r.articles,
+              totalResult: r.total,
               status: HomeBlocStatus.loaded,
             ),
           );
@@ -127,14 +126,14 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
           ),
         ),
         (r) {
-          var hasMax = 2000 / 20;
+          var hasMax = r.total / 20;
           emit(
             state.copyWith(
               hasReachedMax: state.currentPage + 1 > hasMax,
               currentPage: state.currentPage + 1,
               response: r,
-              article: state.article + r,
-              totalResult: 2000,
+              article: state.article + r.articles,
+              totalResult: r.total,
               status: HomeBlocStatus.loaded,
               isFetching: false,
             ),
@@ -169,14 +168,14 @@ class CategoryNewsBloc extends Bloc<CategoryNewsEvent, CategoryNewsState> {
           ),
         ),
         (r) {
-          var hasMax = 2000 / 20;
+          var hasMax = r.total / 20;
           emit(
             state.copyWith(
               hasReachedMax: state.currentPage + 1 > hasMax,
               currentPage: state.currentPage + 1,
               response: r,
-              article: state.article + r,
-              totalResult: 2000,
+              article: state.article + r.articles,
+              totalResult: r.total,
               status: HomeBlocStatus.loaded,
               isFetching: false,
             ),

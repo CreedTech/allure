@@ -1,9 +1,8 @@
-import 'package:allure/domain/entities/article_entity.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../core/core.dart';
 import '../../../../domain/domain.dart';
-import '../../../../helpers/helper_utils.dart';
 import '../enum_explore_bloc.dart';
 
 part 'explore_news_event.dart';
@@ -40,13 +39,13 @@ class ExploreNewsBloc extends Bloc<ExploreNewsEvent, ExploreNewsState> {
           ),
         ),
         (r) {
-          var hasMax = 2000 / 20;
+          var hasMax = r.total / 20;
           emit(
             state.copyWith(
               currentPage: event.page,
               hasReachedMax: hasMax.round() > 1 ? false : true,
               response: r,
-              article: r,
+              article: r.articles,
               totalResult: 2000,
               keyword: event.query,
               status: ExploreBlocStatus.loaded,
@@ -83,13 +82,13 @@ class ExploreNewsBloc extends Bloc<ExploreNewsEvent, ExploreNewsState> {
           ),
         ),
         (r) {
-          var hasMax = 2000 / 20;
+          var hasMax = r.total / 20;
           emit(
             state.copyWith(
               hasReachedMax: state.currentPage + 1 > hasMax,
               currentPage: state.currentPage + 1,
               response: r,
-              article: state.article + r,
+              article: state.article + r.articles,
               totalResult: 2000,
               status: ExploreBlocStatus.loaded,
               keyword: state.keyword,

@@ -1,4 +1,3 @@
-import 'package:allure/components/component_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +6,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_routes_argument.dart';
-import '../../../helpers/helper_routes_path.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
 import '../bloc/category_news/category_news_bloc.dart';
 import '../bloc/enum_home_bloc.dart';
 import '../widget/trending_skeleton_widget.dart';
@@ -190,7 +186,7 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                         height: 100.h,
                                         child: CachedNetworkImage(
                                           // imageUrl: data[index].source.ogImage[0].url,
-                                          imageUrl: data[index].banner,
+                                          imageUrl: data[index].yoastHeadJson.ogImage[0].url,
                                           imageBuilder: (c, image) => Container(
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
@@ -216,7 +212,7 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
-                                              data[index].title,
+                                              data[index].title.rendered,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ).boldSized(14).colors(
@@ -227,7 +223,7 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
-                                              data[index].description,
+                                              data[index].content.rendered,
                                               maxLines: 2,
                                               textAlign: TextAlign.justify,
                                               overflow: TextOverflow.ellipsis,
@@ -247,13 +243,11 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                               borderRadius:
                                                   BorderRadius.circular(5.r),
                                             ),
-                                            child: Text(data[index].category)
-                                                .boldSized(8)
-                                                .colors(
-                                                  Guide.isDark(context)
-                                                      ? colorWhite
-                                                      : colorWhite,
-                                                ),
+                                            child: Text(data[index].yoastHeadJson.schema.graph[0].articleSection.join(' | ')).boldSized(8).colors(
+                                              Guide.isDark(context)
+                                                  ? colorWhite
+                                                  : colorWhite,
+                                            ),
                                           ),
                                           SizedBox(
                                             width: 210.w,
@@ -273,9 +267,7 @@ class _CategoryNewsViewState extends State<CategoryNewsView> {
                                                     SizedBox(
                                                       width: 110.w,
                                                       child: Text(
-                                                        data[index]
-                                                            .author
-                                                            .toUpperCase(),
+                                                        data[index].yoastHeadJson.author.toUpperCase(),
                                                         maxLines: 1,
                                                         overflow: TextOverflow
                                                             .ellipsis,

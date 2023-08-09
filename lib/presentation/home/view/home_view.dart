@@ -1,4 +1,3 @@
-import 'package:allure/components/component_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,12 +8,9 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../components/component_skeleton.dart';
-import '../../../components/component_theme.dart';
+import '../../../core/components/component_skeleton.dart';
+import '../../../core/core.dart';
 import '../../../domain/entitites/news_entities.dart';
-import '../../../helpers/helper_routes_argument.dart';
-import '../../../helpers/helper_routes_path.dart';
-import '../../../helpers/helper_utils.dart';
 import '../bloc/enum_home_bloc.dart';
 import '../bloc/home_news/home_news_bloc.dart';
 import '../bloc/theme/theme_mode_bloc.dart';
@@ -240,13 +236,13 @@ class _HomeViewState extends State<HomeView> {
           );
         }
         if (state.statusRecommendation == HomeBlocStatus.loaded) {
-          final recommendation = state.recommendation?.map((e) => e).toList();
+          final recommendation = state.recommendation?.articles ?? [];
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: Column(
-                children: recommendation!
+                children: recommendation
                     .asMap()
                     .map(
                       (index, value) => MapEntry(
@@ -281,7 +277,10 @@ class _HomeViewState extends State<HomeView> {
                                     height: 100.h,
                                     child: CachedNetworkImage(
                                       // imageUrl: recommendation[index].source.ogImage[0].url,
-                                      imageUrl: recommendation[index].banner,
+                                      imageUrl: recommendation[index]
+                                          .yoastHeadJson
+                                          .ogImage[0]
+                                          .url,
                                       imageBuilder: (c, image) => Container(
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
@@ -307,7 +306,7 @@ class _HomeViewState extends State<HomeView> {
                                       SizedBox(
                                         width: 220.w,
                                         child: Text(
-                                          recommendation[index].title,
+                                          recommendation[index].title.rendered,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         ).boldSized(14).colors(
@@ -318,7 +317,9 @@ class _HomeViewState extends State<HomeView> {
                                       SizedBox(
                                         width: 220.w,
                                         child: Text(
-                                          recommendation[index].description,
+                                          recommendation[index]
+                                              .yoastHeadJson
+                                              .ogDescription,
                                           maxLines: 2,
                                           textAlign: TextAlign.justify,
                                           overflow: TextOverflow.ellipsis,
@@ -338,14 +339,18 @@ class _HomeViewState extends State<HomeView> {
                                           borderRadius:
                                               BorderRadius.circular(5.r),
                                         ),
-                                        child:
-                                            Text(recommendation[index].category)
-                                                .boldSized(8)
-                                                .colors(
-                                                  Guide.isDark(context)
-                                                      ? colorWhite
-                                                      : colorWhite,
-                                                ),
+                                        child: Text(recommendation[index]
+                                                .yoastHeadJson
+                                                .schema
+                                                .graph[0]
+                                                .articleSection
+                                                .join(' | '))
+                                            .boldSized(8)
+                                            .colors(
+                                              Guide.isDark(context)
+                                                  ? colorWhite
+                                                  : colorWhite,
+                                            ),
                                       ),
                                       SizedBox(
                                         width: 210.w,
@@ -363,6 +368,7 @@ class _HomeViewState extends State<HomeView> {
                                                 ),
                                                 Text(
                                                   recommendation[index]
+                                                      .yoastHeadJson
                                                       .author
                                                       .toUpperCase(),
                                                 )
@@ -437,11 +443,11 @@ class _HomeViewState extends State<HomeView> {
           );
         }
         if (state.statusHot == HomeBlocStatus.loaded) {
-          final articles = state.hot?.map((e) => e).toList();
+          final articles = state.hot?.articles ?? [];
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: articles!
+              children: articles
                   .asMap()
                   .map(
                     (index, value) => MapEntry(
@@ -487,7 +493,10 @@ class _HomeViewState extends State<HomeView> {
                                       children: [
                                         CachedNetworkImage(
                                           // imageUrl: articles[index].source.ogImage[0].url,
-                                          imageUrl: articles[index].banner,
+                                          imageUrl: articles[index]
+                                              .yoastHeadJson
+                                              .ogImage[0]
+                                              .url,
                                           imageBuilder: (c, image) => Container(
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
@@ -563,7 +572,12 @@ class _HomeViewState extends State<HomeView> {
                                       color: colorPrimary,
                                       borderRadius: BorderRadius.circular(5.r),
                                     ),
-                                    child: Text(articles[index].category)
+                                    child: Text(articles[index]
+                                            .yoastHeadJson
+                                            .schema
+                                            .graph[0]
+                                            .articleSection
+                                            .join(' | '))
                                         .boldSized(8)
                                         .colors(
                                           Guide.isDark(context)
@@ -580,7 +594,7 @@ class _HomeViewState extends State<HomeView> {
                                   child: SizedBox(
                                     width: 164.w,
                                     child: Text(
-                                      articles[index].title,
+                                      articles[index].title.rendered,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ).boldSized(15).colors(
@@ -615,6 +629,7 @@ class _HomeViewState extends State<HomeView> {
                                               width: 70.w,
                                               child: Text(
                                                 articles[index]
+                                                    .yoastHeadJson
                                                     .author
                                                     .toUpperCase(),
                                                 overflow: TextOverflow.ellipsis,
@@ -772,7 +787,7 @@ class _HomeViewState extends State<HomeView> {
           );
         }
         if (state.statusTrending == HomeBlocStatus.loaded) {
-          final trending = state.trending?.map((e) => e).toList();
+          final trending = state.trending?.articles ?? [];
           return Container(
             margin: EdgeInsets.symmetric(horizontal: 20.w),
             height: 200.h,
@@ -796,7 +811,7 @@ class _HomeViewState extends State<HomeView> {
             ),
             child: PageView.builder(
               controller: controller,
-              itemCount: trending!.length,
+              itemCount: trending.length,
               onPageChanged: (index) {
                 setState(() {
                   _cIndex = index;
@@ -814,7 +829,8 @@ class _HomeViewState extends State<HomeView> {
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
                           // imageUrl: trending[index].source.ogImage[0].url,
-                          imageUrl: trending[index].banner,
+                          imageUrl:
+                              trending[index].yoastHeadJson.ogImage[0].url,
                           imageBuilder: (c, image) => Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
@@ -870,7 +886,7 @@ class _HomeViewState extends State<HomeView> {
                                     SizedBox(
                                       width: 260.w,
                                       child: Text(
-                                        trending[index].title,
+                                        trending[index].title.rendered,
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       ).boldSized(18).colors(
@@ -912,6 +928,7 @@ class _HomeViewState extends State<HomeView> {
                                           width: 7.w,
                                         ),
                                         Text(trending[index]
+                                                .yoastHeadJson
                                                 .author
                                                 .toUpperCase())
                                             .boldSized(10)
@@ -945,7 +962,12 @@ class _HomeViewState extends State<HomeView> {
                             color: colorPrimary,
                             borderRadius: BorderRadius.circular(10.r),
                           ),
-                          child: Text(trending[index].category)
+                          child: Text(trending[index]
+                                  .yoastHeadJson
+                                  .schema
+                                  .graph[0]
+                                  .articleSection
+                                  .join(' | '))
                               .boldSized(11)
                               .colors(
                                 Guide.isDark(context) ? colorWhite : colorWhite,

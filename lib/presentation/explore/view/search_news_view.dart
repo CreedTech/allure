@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import 'package:allure/components/component_style.dart';
+=======
+
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +12,7 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import '../../../components/component_theme.dart';
-import '../../../helpers/helper_routes_path.dart';
-import '../../../helpers/helper_utils.dart';
+import '../../../core/core.dart';
 import '../../home/widget/trending_skeleton_widget.dart';
 import '../bloc/enum_explore_bloc.dart';
 import '../bloc/explore/explore_news_bloc.dart';
@@ -230,7 +232,11 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                         width: 115.w,
                                         height: 100.h,
                                         child: CachedNetworkImage(
+<<<<<<< HEAD
                                           imageUrl: data[index].banner,
+=======
+                                          imageUrl: data[index].yoastHeadJson.ogImage[0].url,
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
                                           // imageUrl: data[index].source.ogImage[0].url,
                                           imageBuilder: (c, image) => Container(
                                             decoration: BoxDecoration(
@@ -257,7 +263,11 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
+<<<<<<< HEAD
                                               data[index].title,
+=======
+                                              data[index].title.rendered,
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ).boldSized(14).colors(
@@ -268,7 +278,11 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                           SizedBox(
                                             width: 220.w,
                                             child: Text(
+<<<<<<< HEAD
                                               data[index].description,
+=======
+                                              data[index].content.rendered,
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
                                               maxLines: 2,
                                               textAlign: TextAlign.justify,
                                               overflow: TextOverflow.ellipsis,
@@ -285,8 +299,17 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                             ),
                                             decoration: BoxDecoration(
                                               color: colorPrimary,
+<<<<<<< HEAD
                                               borderRadius:
                                                   BorderRadius.circular(5.r),
+=======
+                                              borderRadius: BorderRadius.circular(5.r),
+                                            ),
+                                            child: Text(data[index].yoastHeadJson.schema.graph[0].articleSection.join(' | ')).boldSized(8).colors(
+                                              Guide.isDark(context)
+                                                  ? colorWhite
+                                                  : colorWhite,
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
                                             ),
                                             child: Text(data[index].category)
                                                 .boldSized(8)
@@ -312,9 +335,13 @@ class _SearchNewsViewState extends State<SearchNewsView> {
                                                       width: 7.w,
                                                     ),
                                                     Text(
+<<<<<<< HEAD
                                                       data[index]
                                                           .author
                                                           .toUpperCase(),
+=======
+                                                      data[index].yoastHeadJson.author.toUpperCase(),
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
                                                     )
                                                         .boldSized(10)
                                                         .colors(colorTextGray)

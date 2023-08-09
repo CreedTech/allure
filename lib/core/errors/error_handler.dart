@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-import '../data/models/error_model.dart';
+import '../../data/models/error_model.dart';
+
 
 const NOT_IMPLEMENTED = "Not Implemented";
 const REQUEST_CANCELLED = "Request Cancelled";

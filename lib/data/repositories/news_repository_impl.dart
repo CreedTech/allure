@@ -3,11 +3,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../core/core.dart';
 import '../../domain/domain.dart';
-import '../../domain/entities/article_entity.dart';
-import '../../errors/error.dart';
-import '../../errors/error_handler.dart';
-import '../../networks/network_checker.dart';
 import '../datasources/news/news_local_data_source.dart';
 import '../datasources/news/news_remote_data_source.dart';
 
@@ -19,7 +16,7 @@ class NewsRepositoryImpl implements NewsRepository {
   NewsRepositoryImpl(this.localSource, this.remoteSource, this.network);
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> getRecommendation(
+  Future<Either<Failure, NewsEntities>> getRecommendation(
       {String? query, int? limit, int? page}) async {
     if (await network.isConnected) {
       try {
@@ -30,13 +27,13 @@ class NewsRepositoryImpl implements NewsRepository {
           limit: limit ?? 5,
         );
         await localSource.cacheRecommendation(remote);
-        return Right(remote);
+        return Right(remote.toEntity());
       } on DioError catch (e) {
         if (kDebugMode) {
           print(e);
         }
         if (kDebugMode) {
-          print("Yo");
+          print("Yo1");
         }
         // print(e.stackTrace);
         // print(e.message);
@@ -48,6 +45,9 @@ class NewsRepositoryImpl implements NewsRepository {
       } catch (e) {
         if (kDebugMode) {
           print(e);
+        }
+        if (kDebugMode) {
+          print("Yo2");
         }
         return Left(
           NetworkFailure(
@@ -58,7 +58,7 @@ class NewsRepositoryImpl implements NewsRepository {
     } else {
       try {
         final local = await localSource.getRecommendation();
-        return Right(local);
+        return Right(local.toEntity());
       } on CacheException catch (_) {
         return Left(
           CacheFailure(
@@ -78,7 +78,7 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> getTrending() async {
+  Future<Either<Failure, NewsEntities>> getTrending() async {
     if (await network.isConnected) {
       try {
         final remote = await remoteSource.getNewGlobal(
@@ -87,7 +87,7 @@ class NewsRepositoryImpl implements NewsRepository {
           limit: 3,
         );
         await localSource.cacheTrending(remote);
-        return Right(remote);
+        return Right(remote.toEntity());
       } on DioError catch (e) {
         if (kDebugMode) {
           print(e);
@@ -104,7 +104,7 @@ class NewsRepositoryImpl implements NewsRepository {
           print(e);
         }
         if (kDebugMode) {
-          print("Yo");
+          print("Yo3");
         }
         return Left(
           NetworkFailure(
@@ -115,7 +115,7 @@ class NewsRepositoryImpl implements NewsRepository {
     } else {
       try {
         final local = await localSource.getTrending();
-        return Right(local);
+        return Right(local.toEntity());
       } on CacheException catch (_) {
         return Left(
           CacheFailure(
@@ -135,7 +135,7 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> searchNews({
+  Future<Either<Failure, NewsEntities>> searchNews({
     required String keyword,
     required int limit,
     required int page,
@@ -150,10 +150,13 @@ class NewsRepositoryImpl implements NewsRepository {
         if (kDebugMode) {
           print(remote);
         }
-        return Right(remote);
+        return Right(remote.toEntity());
       } on DioError catch (e) {
         if (kDebugMode) {
           print(e);
+        }
+        if (kDebugMode) {
+          print("Yo4");
         }
         // print(e.stackTrace);
         // print(e.message);
@@ -163,7 +166,7 @@ class NewsRepositoryImpl implements NewsRepository {
           ),
         );
       } catch (e) {
-        // print(e);
+        print(e);
         return Left(
           NetworkFailure(
             responseException: ResponseException.getDioException(e),
@@ -182,7 +185,7 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> getHotNews() async {
+  Future<Either<Failure, NewsEntities>> getHotNews() async {
     if (await network.isConnected) {
       try {
         final remote = await remoteSource.getNewGlobal(
@@ -192,7 +195,7 @@ class NewsRepositoryImpl implements NewsRepository {
         );
         // top-headlines?category=general&language=$language&pageSize=5&page=3&apiKey=$key
         await localSource.cacheHot(remote);
-        return Right(remote);
+        return Right(remote.toEntity());
       } on DioError catch (e) {
         // // print(e);
         // print(e.stackTrace);
@@ -203,7 +206,7 @@ class NewsRepositoryImpl implements NewsRepository {
           ),
         );
       } catch (e) {
-        // print(e);
+        print(e);
         return Left(
           NetworkFailure(
             responseException: ResponseException.getDioException(e),
@@ -213,7 +216,7 @@ class NewsRepositoryImpl implements NewsRepository {
     } else {
       try {
         final local = await localSource.getHotNews();
-        return Right(local);
+        return Right(local.toEntity());
       } on CacheException catch (_) {
         return Left(
           CacheFailure(
@@ -233,7 +236,7 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> getNewsByHeadlines({
+  Future<Either<Failure, NewsEntities>> getNewsByHeadlines({
     String? category,
     String? query,
     required int limit,
@@ -248,9 +251,9 @@ class NewsRepositoryImpl implements NewsRepository {
           limit: limit,
           page: page,
         );
-        return Right(remote);
+        return Right(remote.toEntity());
       } on DioError catch (e) {
-        // // print(e);
+        // print(e);
         // print(e.stackTrace);
         // print(e.message);
         return Left(
@@ -259,7 +262,7 @@ class NewsRepositoryImpl implements NewsRepository {
           ),
         );
       } catch (e) {
-        // print(e);
+        print(e);
         return Left(
           NetworkFailure(
             responseException: ResponseException.getDioException(e),
@@ -278,6 +281,7 @@ class NewsRepositoryImpl implements NewsRepository {
   }
 
   @override
+<<<<<<< HEAD
   Future<Either<Failure, List<CategoryEntity>>> getNewsCategory(
       {required int limit, required int page}) async {
     if (await network.isConnected) {
@@ -332,5 +336,10 @@ class NewsRepositoryImpl implements NewsRepository {
         );
       }
     }
+=======
+  Future<Either<Failure, NewsEntities>> getNewsCategory({String? category, String? query, required int limit, required int page}) {
+    // TODO: implement getNewsCategory
+    throw UnimplementedError();
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
   }
 }

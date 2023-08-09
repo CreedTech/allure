@@ -1,18 +1,16 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../errors/error.dart';
-import '../../../usecases/case.dart';
+import '../../../core/core.dart';
 import '../../domain.dart';
-import '../../entities/article_entity.dart';
 
 class GetRecommendationCase
-    implements UseCase<List<ArticleEntity>, GetRecommendationParams> {
+    implements UseCase<NewsEntities, GetRecommendationParams> {
   final NewsRepository repository;
 
   GetRecommendationCase(this.repository);
 
   @override
-  Future<Either<Failure, List<ArticleEntity>>> call(
+  Future<Either<Failure, NewsEntities>> call(
       GetRecommendationParams params) async {
     return await repository.getRecommendation(
       query: params.query,

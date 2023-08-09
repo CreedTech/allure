@@ -1,9 +1,12 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../errors/error.dart';
-import '../../../usecases/case.dart';
+import '../../../core/core.dart';
 import '../../abstraction/bookmark_repository.dart';
+<<<<<<< HEAD
 import '../../entitites/news_entities.dart';
+=======
+import '../../domain.dart';
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
 
 class GetBookmarkCase implements UseCase<NewsEntities, NoParams> {
   final BookmarkRepository repository;
@@ -16,6 +19,7 @@ class GetBookmarkCase implements UseCase<NewsEntities, NoParams> {
   }
 }
 
+<<<<<<< HEAD
 // class GetBookmarkCase extends UseCase<List<ArticleEntity>, NoParams> {
 //   final BookmarkRepository articleRepository;
 //
@@ -26,3 +30,5 @@ class GetBookmarkCase implements UseCase<NewsEntities, NoParams> {
 //     return await articleRepository.getFavoriteArticles();
 //   }
 // }
+=======
+>>>>>>> 853b112d808ffa868101a04f1b695c9b15eefa24
